@@ -9,16 +9,26 @@ require('dotenv').config();/// Importation fichier de configuation
 
 
 // Inscription Utilisateur 
+let regexPassword =  /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8}/;
 exports.signup = (req, res, next) => { 
   let user = new User();
   user.populate(req.body);
-  user.hashPassword(req.body.password)
+  if((req.body.password).match(regexPassword)){
+    user.hashPassword(req.body.password)
     .then(() => {
       userManager.save(user)
         .then(() => {
           res.status(201).json({ message: 'Utilisateur créé !' });
-        })
-    }).catch(error => res.status(500).json({ error }));
+        }).catch(error => 
+          res.status(500).json({ error })
+          );
+    }).catch(error => 
+      res.status(500).json({ error })
+    );
+  }else{
+    return res.status(401).json({ error: 'Votre mot de passe doit contenir 8 caractères, au moins une majuscule, une minuscule et un nombre'});
+}
+  
 };
 
 ///// Connexion utilisateur 
@@ -32,9 +42,10 @@ userManager.findOneEmail(req.body.email)
       }
       res.status(200).json({
         userId: user.id,
+        firstName: user.firstName,
         email: user.email,
         isAdmin: user.isAdmin,
-        token: jwt.sign({ userId: user.id, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET_KEY, { expiresIn: '24h' })
+        token: jwt.sign({ userId: user.id, firstName: user.firstName, email: user.email, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET_KEY, { expiresIn: '24h' })
       });
     })
     .catch(error => res.status(500).json({ error }));
@@ -62,22 +73,22 @@ exports.modifyUser =( req, res, next) =>{
       {
         ...JSON.parse(req.body.user),
         picture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`//// Traitement de la nouvelle image 
-      } : { ...req.body, picture: null };
+      } : { ...req.body };
   userManager.findOne(userObject.id)
-      .then(user =>{
-        if(user.userId == req.token.userId || req.token.isAdmin){
-          userManager.updateOne({...userObject})
-          .then(() => 
-          {
-            if (user.picture){
-              const filename = user.picture.split('/images/')[1];
-              fs.unlink(`images/${filename}`, () =>{res.status(200).json(user);});
-            }else{
-              res.status(200).json(user);
-            }
-          })
-          .catch(error => res.status(400).json({ error }));
-        }else{
+    .then(user =>{
+      if(user.id == req.token.userId || req.token.isAdmin){
+        userManager.updateOne({...userObject, _id: req.params.id })
+        .then(() => res.status(200).json(user))
+          // {
+          //   if (user.picture){
+          //     const filename = user.picture.split('/images/')[1];
+          //     fs.unlink(`images/${filename}`, () =>{res.status(200).json(user);});
+          //   }else{
+          //     res.status(200).json(user);
+          //   }
+          // })
+        .catch(error => res.status(400).json({ error }));
+    }else{
           res.status(401).json({message :"Vous n'avez pas les droits pour modifier cet utilisateur"});
         }
     }).catch(error => res.status(400).json({ error }));
@@ -88,7 +99,7 @@ exports.modifyUser =( req, res, next) =>{
 exports.deleteUser = (req, res, next) => {
   userManager.findOne(req.params.id)
     .then(user => {
-      if(user.userId == req.token.userId || req.token.isAdmin){
+      if(user.id == req.token.userId || req.token.isAdmin){
         userManager.deleteOne(req.params.id)
         .then(() =>
          {

@@ -4,6 +4,7 @@ module.exports = class User {
 
     constructor(values){
         this.populate(values);
+        
     }
 
     populate(values){
