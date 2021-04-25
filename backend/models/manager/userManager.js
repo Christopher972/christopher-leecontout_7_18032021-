@@ -8,7 +8,7 @@ const User = require('../entity/User');
   */
 exports.save = (user) => {
     return new Promise((resolve, reject) => {
-        bd.execute('INSERT INTO user VALUES (NULL, ?, ?, ?, ?, NULL,?)', [user.lastName, user.firstName, user.email, user.hash, user.isAdmin], function (err, result, fields) {
+        bd.execute('INSERT INTO user VALUES (NULL, ?, ?, ?, ?, NULL,0)', [user.lastName, user.firstName, user.email, user.hash], function (err, result, fields) {
             if (err) {
                 reject(err);
             } else {
@@ -51,7 +51,7 @@ exports.findOneEmail = (email) =>{
 
 exports.findOne = (id) => {
     return new Promise((resolve, reject) => {
-        bd.execute('SELECT * FROM user WHERE id = ?', [id], function (err, result, fields) {
+        bd.execute('SELECT id, lastName, firstName, email, picture, isAdmin FROM user WHERE id = ?', [id], function (err, result, fields) {
             if (err) {
                 reject(err);
             } else {
@@ -72,12 +72,13 @@ exports.findOne = (id) => {
 
 /**
  * Modification d'un profile spécifique
- * @param {User} userObject Modification profile utilisateur
+ * @param {User} user Modification profile utilisateur
  * @returns {User} Profil utilisateur modifié
  */
-exports.updateOne = (userObject) => {
+exports.updateOne = (user) => {
     return new Promise((resolve, reject) => {
-        bd.execute('UPDATE user SET lastName = ?, firstName = ?, email = ?, picture = ? WHERE id = ?', [userObject.lastName, userObject.firstName, userObject.email, userObject.picture, userObject.id],
+        bd.execute('UPDATE user SET lastName = ?, firstName = ?,  picture = ?  WHERE id = ?', 
+        [user.lastName, user.firstName, user.picture, user.id],
             function (updateErr, updateResult, updateFields) {
                 if (updateErr) {
                     reject(updateErr);
@@ -85,7 +86,7 @@ exports.updateOne = (userObject) => {
                     resolve("profil modifié");
                 }
             })
-        })  
+        })
 };
 
 /**
