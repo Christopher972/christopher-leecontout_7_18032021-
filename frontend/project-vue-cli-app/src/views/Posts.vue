@@ -5,7 +5,7 @@
                 <img alt="Vue logo" src="../assets/logo.png">
             </div>
             <div id = "create">
-               <router-link to ="/createPost"> Ajouter une publication </router-link>
+               <router-link to ="/createPost">Ajouter une publication</router-link>
             </div>
             <nav id ="nav">
                 <ul>
@@ -15,24 +15,25 @@
             </nav>
         </header>
         <h1>Hello {{ firstName }}, voici les dernières publications </h1>
-        <span v-if = "posts.length < 1">Désolé aucun post sur l'interface</span>
+        <span v-if = "posts.length < 1">Désolé aucune publication sur l'interface</span>
         <section id = "postsSection">
             <div  v-for="post in posts" :key="post.id">
                 <div class="headPost">
-                   <p> {{ post.date}} {{post.time}}<br>
-                        {{post.lastName}} {{post.firstName}}<br>
-                        <img :src="post.picture" :alt="post.id" class="image">
+                   <p> {{ post.lastName }} {{ post.firstName }}<br>
+                        {{ post.date }} {{ post.time }}<br>  
+                        <img :src="post.picture" :alt="post.id" class="imageProfil">
                     </p>
+                   
                 </div>
                 <figure class ="figurePost">
                     <h2 class="title">{{ post.title }}</h2>
-                    <p>{{ post.postContent }}</p>
-                    <img :src="post.postArticle" :alt="post.id"><br>
-                    <router-link :to="{name:'post', params: {id : post.id} }">Détail</router-link>
+                    <p class="content">{{ post.postContent }}</p>
+                    <img  v-if="post.postArticle" :src="post.postArticle" :alt="post.id"><br>
+                    <router-link :to="{ name:'post', params: { id : post.id }}">Commentaires</router-link>
                 </figure>
             </div>
         </section>
-        <h3 id="erreur" v-show="success===false"> Echec de la requête : {{message}} </h3>
+        <h3 id="erreur" v-show="success===false"> Echec de la requête : {{ message }} </h3>
     </div> 
 </template>
 
@@ -51,18 +52,17 @@ export default {
     },
     mounted() {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        if(userInfo){
+        if (userInfo) {
             this.id = userInfo.id;
             this.firstName = userInfo.firstName;
             this.token = userInfo.token;
             this.getAllPosts();
-        }
-        else{
+        } else {
             this.$router.push({ name: 'login' });
         }
     },
     methods: {
-        getAllPosts() {
+        getAllPosts() { /// Fonction appelée pour afficher toutes les publications 
             const data = {
                 method: 'GET',
                 headers:{'Authorization':`Bearer ${this.token}`}
@@ -74,10 +74,12 @@ export default {
                     .then (posts =>{
                         this.posts = posts;      
                     })
-                }else {res.json ().then (() => {this.$router.push({ name: 'login' });})} 
+                } else {
+                    alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                } 
             })
             .catch (() => {
-                this.success= false;
+                this.success = false;
                 this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
             })  
         },
@@ -85,10 +87,10 @@ export default {
             localStorage.clear();
             this.$router.push({ name: 'login' });
         } 
-    },
-     
+    },     
 }
 </script>
+
 <style lang="scss">
 
 .headerPosts
@@ -101,6 +103,7 @@ export default {
 .headPost
 {
     display: flex;
+   
 }
 
 .title
@@ -123,14 +126,18 @@ section > div
     width: 90%;
     margin-bottom: 20px;
 }
-.image{
-    width: 15%;
+
+.imageProfil
+{
+    width: 50px;
+    height: 50px;
     border-radius: 200px;
 }
-.figurePost{
-    transform: translate(0px, -20px);
-}
 
+.content
+{
+    color: black;
+}
 </style>
 
 

@@ -5,6 +5,7 @@ const path = require('path'); ///// Importation de path pour donner accès au ch
 
 const userRoutes = require('./routes/user'); ///// Importation du Router user 
 const postRoutes = require('./routes/post'); //// Importation du Router post
+const commentRoutes = require('./routes/comment'); //// Importation du Router comment
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(helmet()); ////// Sécurisation des en-têtes HTTP
 app.use('/images', express.static(path.join(__dirname, 'images')));///  Gestionnaire de routage 
 
 app.use('/auth', userRoutes );/// enregistrement du routeur pour toutes les demandes efectuées vers /api/users 
-app.use('/posts', postRoutes );/// enregistrement du routeur pour toutes les demandes efectuées vers /api/users 
+app.use('/posts', postRoutes );/// enregistrement du routeur pour toutes les demandes efectuées vers /api/Posts
+app.use('/comment', commentRoutes );/// enregistrement du routeur pour toutes les demandes efectuées vers /api/comments 
+
 module.exports = app;
 

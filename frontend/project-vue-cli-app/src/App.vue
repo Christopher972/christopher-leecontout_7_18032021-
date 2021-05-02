@@ -2,7 +2,7 @@
   <div id="app">
     <router-view/>
     <footer class= "footer">
-        <p class= "copyright">{{copyright}} </p>
+        <p class= "copyright">{{ copyright }} </p>
     </footer>
   </div>
 </template>
@@ -62,28 +62,38 @@ input
   height:24px;
 }
 
+textarea
+{
+    width: 50%;
+    height: 150px;
+    border-radius: 5px;
+}
 
-a{
+.fileUpload, .buttonPost
+{
+    padding:15px;
+}
+
+a, .delete, .modify {
     font-size:15px;
     font-weight: bold;
     color:white;
     text-decoration: none;
-    
     border-radius: 10px;
     display: inline-block;
     padding: 6px 12px;
-    
-  border: 2px solid  #D1515A;
-  background-color:  #D1515A;   
+    border: 2px solid  #D1515A;
+    background-color:  #D1515A;
+    cursor:pointer; 
+    margin:15px;
 }
 
 #postsSection a
 {
-   
-    border: 2px solid #0c0b50 ;
-  
+   border: 2px solid #0c0b50 ;
     background-color: #091F43;   
 }
+
 #create, .profile, .disconnexion {
   font-weight: bold;
   transform: scale(1);
@@ -114,29 +124,56 @@ li
   padding-top: 5px;
   
 }
-figure
+#form
 {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.figurePost{
     background-color: white;
     border-radius: 10px;
-    padding: 6px 12px;
-
-    /* background:#e6dbd9; */
+    padding: 6px 12px;  
+    transform: translate(0px, -20px);
 }
 
-#erreur
-{
-  color:black;
-}
 
-#postArticle,#picture
+
+#postArticle, #picture, #notComment
 {
     color: black;
 } 
 
+.invalid-feedback, #erreur
+{
+  color:red;
+}
+
 img
   {
-    width: 80%;
+    width: 75%;
   }
+
+  #formCreatePost, #formModifyPost, #formCreateCom
+{
+    border: 2px solid #0c0b50 ;
+    background-color: #D1515A;
+    margin:50px;  
+}
+
+#postCreate, #modifyUser, #postModify, #createCom{
+    border: 2px solid #0c0b50 ;
+    background-color: #091F43; 
+    font-size:15px;
+    font-weight:bold;
+    border-radius:8px;
+    height:auto;
+    padding:10px;
+    color:white;
+    cursor:pointer; 
+}
 
 @media screen and (max-width:800px){
   #app

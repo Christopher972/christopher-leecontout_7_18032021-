@@ -29,8 +29,8 @@ const routes = [
   },
 
   {
-    path: '/CreatePost',
-    name: 'CreatePost',
+    path: '/createPost',
+    name: 'createPost',
     component: () => import('../views/CreatePost.vue')
   },
 
@@ -43,8 +43,9 @@ const routes = [
   {
     path: '/modifyPost/:id',
     name: 'modifyPost',
-    component: () => import('../views/modifyPost.vue')
+    component: () => import('../views/ModifyPost.vue')
   },
+  
 ]
 
 const router = new VueRouter({

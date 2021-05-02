@@ -4,17 +4,19 @@
             <div id="logo">
                 <img alt="Vue logo" src="../assets/logo.png">
             </div>
-            <nav id ="nav">
+            <nav id="nav">
                 <ul>
-                    <li class ="disconnexion" @click="disconnected">Déconnexion</li>
+                    <li class="disconnexion" @click="disconnected">Déconnexion</li>
                 </ul>
             </nav>
         </header>
        <h1>Hello {{ firstName }}, voici votre profil </h1>
+
+        <!--Formulaire de modification du Pofil-->
         <form id="form" @submit.prevent="changeProfile()">
-            <figure>
+            <figure class= "figureProfile">
                 <h2 class="title">Changer mon avatar</h2>
-                    <img :src="user.picture" :alt="user.id" class="image-preview_profile"><br><br> 
+                    <img :src="user.picture" :alt="user.id" class="image-preview_profile"><br><br>
                 <label for="picture">Choisissez votre avatar:</label><br> 
                 <input type="file" id="picture" name="picture" ref="file" accept="image/*"  @change ="checkImage()"><br><br>
                 <label for="lastName">Votre nom actuel:</label><br>
@@ -26,13 +28,14 @@
         </form> 
          <div class="button">
             <router-link to="/posts">
-                <button class= "profile"><i class="fas fa-undo"></i>Retours aux publications</button>
+                <button id="create"><i class="fas fa-undo"></i>Retours aux publications</button>
             </router-link>
             <button class="delete" @click= "deleteUser()">Suprrimer Utlisateur</button>     
             <h3 id="erreur" v-show="success===false"> Echec de la requête : {{message}} </h3>
         </div>  
     </div>
 </template>
+
 <script>
 export default {
     name: 'Profile',
@@ -65,129 +68,101 @@ export default {
         }
     },
     methods: {
-        getOneUser() {
-            const data = {
+        getOneUser() { //// Fonction appelée pour obtenir un profil spécifique 
+            const dataGetProfil = {
                 method: 'GET',
                 headers:{'Authorization':`Bearer ${this.token}`}
             };
-            fetch(`http://localhost:3000/auth/profile/${this.id} `, data)
+            fetch(`http://localhost:3000/auth/profile/${this.id} `, dataGetProfil)
             .then (res => {
                 if (res.status == 200) {
-                    res.json()
-                    .then (user =>{
-                        this.user = user;      
-                    })
-                }else {res.json ().then (() => {this.$router.push({ name: 'login' });})} 
+                     res.json()
+                    .then( user => {
+                        this.user = user; 
+                    })     
+                } else {
+                     alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                } 
             })
             .catch (() => {
-                this.waiting=false;
-                this.success= false;
+                
+                this.success = false;
                 this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
             })  
         },
-        deleteUser(){
-            const data = {
-                method: 'DELETE',
-                headers:{'Authorization':`Bearer ${this.token}`}
-            };
-            let confirmation = confirm("Votre compte sera supprimé définitivement sur l'interface");
-            if(confirmation == true) {
-                fetch(`http://localhost:3000/auth/profile/${this.id} `, data)
-                .then (res => {
-                    if (res.status == 200) {
-                        res.json()
-                        .then (user =>{
-                            this.user = user;      
-                        })
-                    }else {res.json ().then (() => {this.$router.push({ name: 'login' });})} 
-                })
-                .catch (() => {
-                    this.waiting=false;
-                    this.success= false;
-                    this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
-                })  
-            }    
-        },
-        checkImage(){
+        checkImage() { //Fonction appelée pour visualiser l'avatar
             let imageToCheck = this.$refs.file.files[0];
-            if(!imageToCheck || imageToCheck.type.indexOf('image/') !== 0) {
-                this.imageLoaded = false;
-                return;
-            }
-            if(imageToCheck) {
+            if (imageToCheck) {
                 const reader = new FileReader();
-                this.imageLoaded = true;
                 this.imageToCheck = true;
                 reader.addEventListener("load", function() {
                 document.getElementsByClassName('image-preview_profile')[0].setAttribute("src", this.result);
             });
                 reader.readAsDataURL(imageToCheck);
-            }
-            else {this.imgIsChecked=false;}
+            }   
         },
-        changeProfile(){
-        const picture = this.$refs.file.files[0];
-        const user = {"id":this.user.id, "lastName":this.user.lastName, "firstName":this.user.firstName, "picture":this.user.picture };
-        if(! picture){
-            const data = {
+        changeProfile() { //////Fonction appelée pour modifier l'identité de l'utilisateur ou de la photo de profil
+            const picture = this.$refs.file.files[0];
+            const user = {"id":this.user.id, "lastName":this.user.lastName, "firstName":this.user.firstName, "picture":this.user.picture };
+            var dataProfil = null;
+            if (! picture) {
+                dataProfil = {
                 method: 'PUT',
                 body: JSON.stringify(user),
                 headers: {'content-type': 'application/json', 'Authorization':`Bearer ${this.token}`}
-            }
-            fetch(`http://localhost:3000/auth/profile/${this.id}`, data)
-                .then (res => {
-                    if (res.status == 200) {
-                        res.json()
-                        .then (user =>{
-                            this.user = user;
-                            this.success=true;
-                            this.$router.push({ name: 'posts' });
-                            alert('profil modifié')
-                        })
-                    }else {
-                    res.json ()
-                        .then (json => {
-                            this.success = false;
-                            this.message = json.error;
-                        })
-                    }
-                })
-                .catch (() => {
-                    this.success= false;
-                    this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
-                }) 
-            }else{
+            }   
+            } else {
                 let formData = new FormData();
-                formData.append('user', JSON.stringify(user))
+                formData.append('user', JSON.stringify(user));
                 formData.append('image', picture);
-                const data = {
+                dataProfil = {
                     method: 'PUT',
                     body: formData,
                     headers: {'Authorization':`Bearer ${this.token}`}
                 }
-                fetch(`http://localhost:3000/auth/profile/${this.id}`, data) 
+            }
+            fetch(`http://localhost:3000/auth/profile/${this.id}`, dataProfil) 
+            .then (res => {
+                if (res.status == 200) {
+                    res.json()
+                    .then( user => {
+                        this.user = user;
+                        this.success = true;
+                        this.$router.push({ name: 'posts' })
+                    })
+                    // alert('profile modifié');   
+                } else {
+                    alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                }
+            })
+            .catch (() => {
+                this.success = false;
+                this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
+            })         
+        },
+        deleteUser() { //////Fonction appelée pour supprimer un profil spécifique sur l'interface 
+            const dataDeleteProfil = {
+                method: 'DELETE',
+                headers:{'Authorization':`Bearer ${this.token}`}
+            };
+            let confirmation = confirm("Votre compte sera supprimé définitivement sur l'interface");
+            if (confirmation == true) {
+                fetch(`http://localhost:3000/auth/profile/${this.id} `, dataDeleteProfil)
                 .then (res => {
                     if (res.status == 200) {
                         res.json()
-                        .then (user =>{
-                            this.user = user;
-                            this.success = true;
-                            this.$router.push({ name: 'posts' })
-                            alert('profile modifié'); 
-                        }) 
-                    }else {
-                        res.json ()
-                        .then (json => {
-                            this.success = false;
-                            this.message = json.error;
-                        })
-                    }
+                        .then( user => {
+                            this.user = user; 
+                        })        
+                    } else { 
+                        alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                    } 
                 })
                 .catch (() => {
-                    this.success= false;
+                    this.success = false;
                     this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
-                }) 
-            }     
+                })  
+            }    
         },
         disconnected() {
             localStorage.clear();
@@ -196,36 +171,36 @@ export default {
     },
 }
 </script>
+
 <style lang="scss">
-.headerProfile {
+
+.headerProfile 
+{
     display: flex;
     justify-content: space-between;
 }
-.image-preview_profile{
-    width: 40%;
-    border:2px solid black;
+
+.figureProfile
+{
+    border-radius: 10px;
+    padding: 6px 12px;  
+    background-color: #D1515A;
+}
+
+.image-preview_profile
+{
+    height: 100px;
+    width: 100px;
+    border:2px solid #091F43;
     border-radius: 200px;
 }
-#modifyUser, .delete{
-  height:auto;
-  padding:10px;
-  border-radius:8px;
-  background:#0c0b50;
-  font-weight:bold;
-  font-size:20px;
-  cursor:pointer;
-  color:#e6dbd9;
-}
-.button{
+
+.button
+{
     display:flex;
     flex-flow:column-reverse;
     justify-content:center;
     align-items: center;
 }
-
-.delete{
-    margin:15px;
-}
-
 
 </style>

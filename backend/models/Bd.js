@@ -1,12 +1,12 @@
 require('dotenv').config();/// Importation fichier de configuation 
 const mysql = require('mysql2');
 
-////// Connexion à la DB my sql 
+////// Connexion à la BD my sql 
 let connectBd = mysql.createConnection({
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS
+    database: process.env.BD_NAME,
+    host: process.env.BD_HOST,
+    user: process.env.BD_USER,
+    password: process.env.BD_PASS
 });
 connectBd.connect(
     function(err){
