@@ -17,9 +17,9 @@
       <p v-show="submitted && ! password" class="invalid-feedback">Un mot de passe est requis !</p>
       <input type="submit" id="userSignup" value="Connexion">
     </form>
-    <h3 id="erreur" v-show="success===false"> Echec de la connexion : {{message}} </h3>
+    <h3 id="erreur" v-show="success===false"> Echec de la connexion : {{message}}</h3>
     <div id="account">
-    <p> Pas encore de compte ? <router-link to="/">Créer un compte</router-link> </p>
+      <p>Pas encore de compte ?<router-link to="/">Créer un compte</router-link></p>
     </div>
   </div>
 </template>
@@ -29,45 +29,42 @@ export default {
   name: 'Login',
   data: function() {
     return {
-    waiting: false,
-    success: true, //affichage d'un message d'erreur si passe à false
-    message :"", //message d'erreur
-    email:"",
-    password:"",
-    submitted: false
+      success: true, //affichage d'un message d'erreur si passe à false
+      message :"", //message d'erreur
+      email:"",
+      password:"",
+      submitted: false
     }
   },
-  methods: {//Fonction appelée lors de la soumission du formulaire
-    formSend() {
+  methods: {
+    formSend() { //Fonction appelée lors de la soumission du formulaire à l'API
       this.submitted = true;
-        const data = {
-          method: 'POST',
-          body: JSON.stringify({"email":this.email, "password": this.password}),
-          headers: {'Content-Type': 'application/json'}
-        };
-        fetch("http://localhost:3000/auth/login", data)
-          .then (res => {
-            if (res.status == 200) {res.json ()
-                .then (user => {
-                   this.success=true;
-                    const userInfo = {id: user.userId, firstName: user.firstName, email: user.email, isAdmin: user.isAdmin, token: user.token}
-                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                    this.$router.push({ name: 'posts' });
-                    alert('connexion réussi');
-                }) 
-            }
-            else {res.json ()
-              .then (json => {
-                this.success = false;
-                this.message = json.error;
-              }
-            )}
-          })
-          .catch (() => {
-            this.success= false;
-            this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
-          })
-      }
-    } 
+      const data = {
+        method: 'POST',
+        body: JSON.stringify({"email":this.email, "password": this.password}),
+        headers: {'Content-Type': 'application/json'}
+      };
+      fetch("http://localhost:3000/auth/login", data)
+      .then (res => {
+        if (res.status == 200) {res.json ()
+          .then (user => {
+            this.success = true;
+            const userInfo = {"id": user.userId, "firstName": user.firstName, "email": user.email, "isAdmin": user.isAdmin, "token": user.token}
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            this.$router.push({ name: 'posts' });
+            // alert('connexion réussi');
+          }) 
+        }
+        else {
+           alert('Erreur' +  res.status  + '. Veuillez réessayer');
+        }
+      })
+      .catch (() => {
+        this.success= false;
+        this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
+      })
+    }
+  } 
 }
 </script>
+

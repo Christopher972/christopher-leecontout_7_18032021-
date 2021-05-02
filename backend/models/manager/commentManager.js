@@ -6,17 +6,35 @@ const Comment = require('../entity/Comment');
  * @param {Comment} commentObject 
  * @returns {Comment} création d'un commentaire
  */
-exports.save =(comment) =>{
-    return new Promise((resolve, reject) =>{
+exports.save =(comment) => {
+    return new Promise((resolve, reject) => {
         bd.execute('INSERT INTO comments VALUES(NULL, ?, ?, NOW(), ?, ?)', 
         [comment.userId, comment.postId, comment.comContent, comment.comArticle], 
         function (err, result, fields){
-            if(err){
+            if(err) {
                 reject(err);
-            }else{
+            } else {
                 resolve();
             }
         });  
+    });
+};
+
+/**
+ * Affichage de tous les commentaires sur l'interface
+ * @returns {commentObject} Affichage de tous les commentaires
+ */
+ exports.findAllComments = (id) => {
+    return new Promise((resolve, reject) => {
+        bd.execute("SELECT comments.id, comments.userId, comments.postId, DATE_FORMAT(DATE(comments.date), '%d %M %Y' ) AS date, TIME(comments.date) AS time, comments.comContent, comments.comArticle, user.lastName, user.firstName, user.picture FROM comments INNER JOIN user ON comments.userId = user.id WHERE comments.postId = ? ORDER BY date DESC",
+        [id],
+        function (err, result, fields) {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result);
+            }
+        });
     });
 };
 
@@ -27,7 +45,8 @@ exports.save =(comment) =>{
  */
 exports.find =(id) =>{
     return new Promise((resolve, reject) => {
-        bd.execute('SELECT * FROM comments WHERE id = ?', [id], function (err, result, fields) {
+        bd.execute('SELECT * FROM comments WHERE id = ?', [id], 
+        function (err, result, fields) {
             if (err) {
                 reject(err);
             } else {
@@ -38,30 +57,8 @@ exports.find =(id) =>{
                     comments.populate(result[0]);
                     resolve(comments);
                 }
-
-            }
-
-        });
-
-    });
-};
-
-/**
- * Modification d'un commentaire 
- * @param {Comment} commentObject Modification du commentaire
- * @returns {Comment} commentaire modifié
- */
-exports.update = (commentObject) =>{
-    return new Promise ((resolve, reject) =>{
-        bd.execute('UPDATE comments SET comContent = ?, comArticle = ? WHERE id = ?', [ commentObject.comContent, commentObject.comArticle, commentObject.id],
-        function (updateErr, updateResult, updateFields) {
-            if (updateErr) {
-                reject(updateErr);
-            } else {
-                resolve("commentaire modifié");
             }
         });
-        
     });
 };
 
@@ -79,26 +76,7 @@ exports.delete = (id) => {
             } else {
                 resolve("commentaire supprimé");
             }
-
         });
     });
 };
 
-/**
- * Affichage de toutes les publications sur l'interface
- * @returns {commentObject} Affichage All Posts
- */
- exports.findAllComments = (id) =>{
-    return new Promise((resolve, reject) => {
-        bd.execute("SELECT comments.id, comments.userId, comments.postId, DATE_FORMAT(DATE(comments.date), '%d %M %Y' ) AS date, TIME(comments.date) AS time, comments.comContent, comments.comArticle, user.lastName, user.firstName FROM comments INNER JOIN user ON comments.userId = user.id WHERE comments.postId = ? ORDER BY date DESC",
-            [id],
-            function (err, result, fields) {
-            if (err) {
-                reject(err)
-            } else {
-               resolve(result);
-            }
-        });
-   });
-
-};

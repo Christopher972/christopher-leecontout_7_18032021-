@@ -8,39 +8,39 @@ const User = require('../entity/User');
   */
 exports.save = (user) => {
     return new Promise((resolve, reject) => {
-        bd.execute('INSERT INTO user VALUES (NULL, ?, ?, ?, ?, NULL,0)', [user.lastName, user.firstName, user.email, user.hash], function (err, result, fields) {
+        bd.execute('INSERT INTO user VALUES (NULL, ?, ?, ?, ?, NULL,0)', 
+        [user.lastName, user.firstName, user.email, user.hash], 
+        function (err, result, fields) {
             if (err) {
                 reject(err);
             } else {
                 resolve();
             }
-
-        })
-
-    })
-}
+        });
+    });
+};
 
 /**
  * Récupère un utilisateur par son email
  * @param {String} email Email de l'utilisateur
  * @returns {User} L'utilisateur s'il a été trouvé 
  */
-exports.findOneEmail = (email) =>{
-    return new Promise((resolve, reject) =>{
-        bd.execute('SELECT * FROM user WHERE email = ?', [email], function (err, result, fields){
-            if (err){
+exports.findOneEmail = (email) => {
+    return new Promise((resolve, reject) => {
+        bd.execute('SELECT * FROM user WHERE email = ?', [email], 
+        function (err, result, fields) {
+            if (err) {
                 reject(err);
-            }else{
-                if (result.length == 0){
+            } else {
+                if (result.length == 0) {
                     reject('Utilisateur non trouvé !')
-                }else {
+                } else {
                     const user = new User(result[0]);
                     resolve(user);
                 }
-
-            }
-        })
-    })
+            };
+        });
+    });
 };
 
 /**
@@ -48,10 +48,10 @@ exports.findOneEmail = (email) =>{
  * @param {INT} id Profile spécifique
  * @returns {User} Profile utilisateur s'il a été trouvé
 */
-
 exports.findOne = (id) => {
     return new Promise((resolve, reject) => {
-        bd.execute('SELECT id, lastName, firstName, email, picture, isAdmin FROM user WHERE id = ?', [id], function (err, result, fields) {
+        bd.execute('SELECT id, lastName, firstName, email, picture, isAdmin FROM user WHERE id = ?', [id], 
+        function (err, result, fields) {
             if (err) {
                 reject(err);
             } else {
@@ -62,13 +62,10 @@ exports.findOne = (id) => {
                     user.populate(result[0]);
                     resolve(user);
                 }
-
-            }
-
-        })
-
-    })
-}
+            };
+        });
+    });
+};
 
 /**
  * Modification d'un profile spécifique
@@ -79,14 +76,14 @@ exports.updateOne = (user) => {
     return new Promise((resolve, reject) => {
         bd.execute('UPDATE user SET lastName = ?, firstName = ?,  picture = ?  WHERE id = ?', 
         [user.lastName, user.firstName, user.picture, user.id],
-            function (updateErr, updateResult, updateFields) {
-                if (updateErr) {
-                    reject(updateErr);
-                } else {
-                    resolve("profil modifié");
-                }
-            })
-        })
+        function (updateErr, updateResult, updateFields) {
+            if (updateErr) {
+                reject(updateErr);
+            } else {
+                resolve("profil modifié");
+            }
+        });
+    });
 };
 
 /**
@@ -101,9 +98,7 @@ exports.deleteOne = (id) => {
                 reject(err);
             } else {
                 resolve("profil supprimé");
-
             }
-
-        })
-    })
-}
+        });
+    });
+};

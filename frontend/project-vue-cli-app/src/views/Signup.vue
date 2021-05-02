@@ -25,7 +25,7 @@
     </form>
     <p id="erreur" v-show="success===false"> Echec de l'inscription : {{message}} </p>
     <div id="account">
-    <p> Déjà un compte ? <router-link to="/login">Se connecter</router-link> </p>
+      <p> Déjà un compte ? <router-link to="/login">Se connecter</router-link> </p>
     </div>
   </div>
 </template>
@@ -45,52 +45,38 @@ export default {
     }
   },
   methods: {
-    formSend(){
+    formSend() {///// Fonction appelée lors de la soumission du formulaire à l'API
       const lastName = this.lastName;
       const firstName = this.firstName;
       const email = this.email;
       const password = this.password;
       this.submitted = true;
-      const user ={"lastName":lastName, "firstName":firstName, "email":email, "password":password};
+      const user = {"lastName":lastName, "firstName":firstName, "email":email, "password":password};
       const data = {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {'Content-Type': 'application/json'}
       };
       fetch("http://localhost:3000/auth/signup", data)
-        .then (res => {
-          if (res.status == 201) {
-            this.success=true;
-            this.$router.push({ name: 'login' });
-            alert('Inscription réussi');
-          }
-          else {res.json ()
-              .then (json => {
-                this.success = false;
-                this.message = json.error;
-              }
-            )}
-          })
-          .catch (() => {
-            this.success= false;
-            this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
-          })
+      .then (res => {
+        if (res.status == 201) {
+          this.success=true;
+          this.$router.push({ name: 'login' });
+          // alert('Inscription réussi');
+        } else {
+          alert('Erreur' +  res.status  + '. Veuillez vous réinscricre');
+        }
+      })
+      .catch (() => {
+        this.success= false;
+        this.message = "Désolé, le serveur ne répond pas ! Veuillez réessayer ultérieurement";
+      })
     }
-  }
-    
+  }   
 }
 </script>
 
 <style lang = "scss">
-
-#form
-{
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    padding: 10px;
-}
-
 #userSignup 
 {
   margin:20px auto 0;
