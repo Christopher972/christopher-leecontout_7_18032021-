@@ -9,7 +9,7 @@
                     <li class ="profile"><router-link to = "/profile">Mon Profil</router-link>
                     <li class ="disconnexion" @click="disconnected">Déconnexion</li>
                 </ul>
-            </nav>
+            </nav> 
         </header>
     <!-- Formulaire de modification de publication -->
         <div id ="formModifyPost">
