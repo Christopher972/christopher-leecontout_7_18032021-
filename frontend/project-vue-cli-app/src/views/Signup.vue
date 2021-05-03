@@ -17,7 +17,7 @@
       <input  type="text" name="firstName" v-model="firstName" id="firstName">
       <p v-show="submitted && ! firstName" class="invalid-feedback">Un prénom d'utilisateur est requis !</p>
       <label for="e-mail">Adresse E-mail</label>
-      <input type="email" name="email" v-model="email" id="email" required>
+      <input type="email" name="e-mail" v-model="email" id="e-mail" required>
       <label for="password">Mot de Passe </label>
       <input  type="password" name="password" v-model="password" id="password">  
       <p v-show="submitted && ! password" class="invalid-feedback">Votre mot de passe doit contenir 8 caractères, au moins une Majuscule, une minuscule et un nombre !</p>

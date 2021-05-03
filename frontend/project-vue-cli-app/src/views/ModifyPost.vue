@@ -25,7 +25,7 @@
             </form>
         </div>
         <div class ="buttonPost">
-            <router-link to="/posts"> <button class = "profile"> <i class="fas fa-undo"></i> Retourner aux publications</button> </router-link>
+            <router-link to="/posts" class = "profile"> <i class="fas fa-undo"></i> Retourner aux publications </router-link>
             <button class="delete" @click= "deletePost()">Suprrimer publication</button>
             <p id="erreur" v-show="success===false"> Echec de la modification du Post : {{message}} </p>
         </div>

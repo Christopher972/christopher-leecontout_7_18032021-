@@ -33,6 +33,11 @@ body
   justify-content: center;
 }
 
+#logo
+{
+  padding: 20px;
+}
+
 h1
 {
   color:white;   
@@ -77,13 +82,13 @@ textarea
 a, .delete, .modify {
     font-size:15px;
     font-weight: bold;
-    color:white;
+    color: white;
     text-decoration: none;
     border-radius: 10px;
     display: inline-block;
     padding: 6px 12px;
     border: 2px solid  #D1515A;
-    background-color:  #D1515A;
+    background-color:  #ca464f;
     cursor:pointer; 
     margin:15px;
 }
@@ -96,7 +101,7 @@ a, .delete, .modify {
 
 #create, .profile, .disconnexion {
   font-weight: bold;
-  transform: scale(1);
+  /* transform: scale(1); */
   transition: all 400ms;
     &:hover {
       transform: scale(1.1);
@@ -104,10 +109,14 @@ a, .delete, .modify {
       cursor:pointer;
     }
 }
-
+.buttonPost a 
+{
+  border: none;
+  background: none;
+   text-decoration: underline;
+}
 li
 {
-    font-weight: bold;
     color: white;
     margin: 10px 20px;
     &:hover  {
@@ -175,6 +184,11 @@ img
     cursor:pointer; 
 }
 
+i
+  {
+    margin: 2px;
+  }
+
 @media screen and (max-width:800px){
   #app
   {
@@ -195,10 +209,6 @@ img
   {
     margin: 2px;
     transform: none;
-  }
-  a
-  {
-    padding: 1px;
   }
   
 }

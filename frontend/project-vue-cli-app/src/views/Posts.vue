@@ -120,7 +120,7 @@ section > div
     color:white;
     text-decoration: none;
     border-radius: 10px;
-    background-color: #D1515A;
+    background-color: #ca464f;
     display: inline-block;
     padding: 6px 12px;
     width: 90%;

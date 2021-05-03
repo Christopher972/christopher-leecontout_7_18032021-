@@ -11,7 +11,7 @@
     <!--Formulaire de connexion de compte-->
     <form id="form" @submit.prevent="formSend">
        <label for="e-mail">Adresse E-mail</label>
-      <input type="email" name="email" v-model="email" id="email" required>
+      <input type="email" name="e-mail" v-model="email" id="e-mail" required>
       <label for="password">Mot de Passe </label>
       <input  type="password" name="password" v-model="password" id="password">  
       <p v-show="submitted && ! password" class="invalid-feedback">Un mot de passe est requis !</p>
