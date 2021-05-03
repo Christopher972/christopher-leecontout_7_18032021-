@@ -20,16 +20,14 @@
                 <label for="picture">Choisissez votre avatar:</label><br> 
                 <input type="file" id="picture" name="picture" ref="file" accept="image/*"  @change ="checkImage()"><br><br>
                 <label for="lastName">Votre nom actuel:</label><br>
-                <input type="text" id="lastName" placeholder="nom actuel" v-model="user.lastName"><br>
-                <label for="lastName">Votre prénom actuel:</label><br>
-                <input type="text" id="firstName" placeholder= "prénom actuel" v-model="user.firstName"><br>
+                <input type="text" name="lastName" id="lastName" placeholder="nom actuel" v-model="user.lastName"><br>
+                <label for="firstName">Votre prénom actuel:</label><br>
+                <input type="text" name="firstName" id="firstName" placeholder= "prénom actuel" v-model="user.firstName"><br>
                 <input type="submit" id="modifyUser" value="Changer">
             </figure> 
         </form> 
-         <div class="button">
-            <router-link to="/posts">
-                <button id="create"><i class="fas fa-undo"></i>Retours aux publications</button>
-            </router-link>
+         <div class="buttonPost">
+            <router-link to="/posts" class = "profile"> <i class="fas fa-undo"></i> Retourner aux publications</router-link>
             <button class="delete" @click= "deleteUser()">Suprrimer Utlisateur</button>     
             <h3 id="erreur" v-show="success===false"> Echec de la requête : {{message}} </h3>
         </div>  

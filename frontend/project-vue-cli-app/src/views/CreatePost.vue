@@ -19,7 +19,7 @@
             <label for="title">Titre</label>
             <input type="text" name="title" v-model="title" id="title" minlength="8" maxlength= "49" required>
             <label for="postContent">Description</label>
-            <textarea type="text" name="postContent" v-model="postContent" placeholder="ajoutez votre contenu..."> id="postContent" maxlength="1000"></textarea>
+            <textarea type="text" name="postContent" v-model="postContent" placeholder="ajoutez votre contenu..." id="postContent" maxlength="1000"></textarea>
             <label for="postArticle" class="fileUpload"><i class="fa fa-upload" aria-hidden="true"></i> Télécharger une image </label>
             <input @change ="loadImagePreview()" type="file" ref="file" id="postArticle" name="postArticle" accept="image/*">
             <div class="image-preview" v-if="imageLoaded===true">
@@ -29,7 +29,7 @@
         </form>
     </div>
     <div class ="buttonPost">
-        <router-link to="/posts"> <button class = "posts"> <i class="fas fa-undo"></i> Retourner aux publications</button> </router-link>
+        <router-link to="/posts" class= "profile"><i class="fas fa-undo"></i>Retourner aux publications </router-link>
     </div>
     <p id="erreur" v-show="success===false"> Echec de la création du Post : {{message}} </p>
   </div>

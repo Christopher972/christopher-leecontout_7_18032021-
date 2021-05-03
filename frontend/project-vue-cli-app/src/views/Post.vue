@@ -59,9 +59,7 @@
             </form>
         </div>
         <div class= "buttonPost">
-            <router-link to="/posts">
-                <button class= "profile"><i class="fas fa-undo"></i>Retours aux publications</button>
-            </router-link>
+            <router-link to="/posts" class= "profile"> <i class="fas fa-undo"></i>Retourner aux publications</router-link>
             <button class="modify" v-if="post.canUpdate" @click= "modifyPost()">Modifier Publication</button>
             <h3 id="erreur" v-show="success===false"> Echec de la requête : {{message}} </h3>
         </div> 
