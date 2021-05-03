@@ -240,7 +240,7 @@ export default {
 {
     background-color: white;
     border-radius: 10px;
-    transform: translate(0px, -20px);
+    transform: translate(0px, -30px);
 }
 
 figcaption
@@ -252,5 +252,13 @@ figcaption
 {
     width:50%;
     text-align: center;
+}
+
+@media screen and (max-width:800px){
+.figurePostComment
+  {
+    margin: 1px;
+    transform: translate(0px, 2px);
+  }
 }
 </style>

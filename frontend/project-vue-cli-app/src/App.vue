@@ -185,5 +185,21 @@ img
   {
     padding: 4px;
   }
+  
+  textarea, img
+  {
+    width: 100%;
+  }
+
+  .figurePost, #formCreatePost, #formModifyPost, #formCreateCom
+  {
+    margin: 2px;
+    transform: none;
+  }
+  a
+  {
+    padding: 1px;
+  }
+  
 }
 </style>
