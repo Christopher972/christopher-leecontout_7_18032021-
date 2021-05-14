@@ -26,7 +26,7 @@ exports.create = (post) => {
  */
  exports.findAll = () =>{
     return new Promise((resolve, reject) => {
-        bd.execute("SELECT post.id, post.userId, DATE_FORMAT(DATE(post.date), '%d %M %Y' ) AS date, TIME(post.date) AS time, post.title, post.postContent, post.postArticle, user.lastName, user.firstName, user.picture FROM post JOIN user ON post.userId = user.id ORDER BY post.date DESC;",
+        bd.execute("SELECT post.id, post.userId, DATE_FORMAT(DATE(post.date), '%d %M %Y' ) AS date, TIME(post.date) AS time, post.title, post.postContent, post.postArticle, user.lastName, user.firstName, user.picture FROM post INNER JOIN user ON post.userId = user.id ORDER BY post.date DESC;",
             function (err, result, fields) {
             if (err) {
                 reject(err)

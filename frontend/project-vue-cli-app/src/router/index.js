@@ -1,49 +1,54 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Signup from '../views/Signup.vue'
-
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Signup from '../views/Signup.vue';
+import Login from '../views/Login.vue';
+import Posts from '../views/Posts.vue';
+import Profile from '../views/Profile.vue';
+import CreatePost from '../views/CreatePost.vue';
+import Post from '../views/Post.vue';
+import ModifyPost from '../views/ModifyPost.vue';
 
 Vue.use(VueRouter)
 const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  
   {
     path: '/',
     name: 'signup',
     component: Signup
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/Login.vue')
-  },
-
-  {
     path: '/posts',
     name: 'posts',
-    component: () => import('../views/Posts.vue')
+    component: Posts
   },
 
   {
     path: '/profile',
     name: 'profile',
-    component: () => import('../views/Profile.vue')
+    component: Profile
   },
 
   {
     path: '/createPost',
     name: 'createPost',
-    component: () => import('../views/CreatePost.vue')
+    component: CreatePost
   },
 
   {
     path: '/post/:id',
     name: 'post',
-    component: () => import('../views/Post.vue')
+    component: Post
   },
 
   {
     path: '/modifyPost/:id',
     name: 'modifyPost',
-    component: () => import('../views/ModifyPost.vue')
+    component: ModifyPost
   },
   
 ]

@@ -75,7 +75,8 @@ export default {
                         this.posts = posts;      
                     })
                 } else {
-                    alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                    this.success=false;
+                    this.message = "Veuillez réessayer";
                 } 
             })
             .catch (() => {
@@ -98,6 +99,11 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.headerPosts a
+{
+    padding: 5px;
+    margin: 5px;
 }
 
 .headPost
@@ -137,6 +143,23 @@ section > div
 .content
 {
     color: black;
+}
+
+@media screen and (max-width:800px){
+    #logo img 
+    {
+        width: 80px;
+    }
+
+    #create a 
+    {
+        margin: 15px;
+    }
+
+    ul
+    {
+        padding: 5px 1px;
+    }
 }
 </style>
 

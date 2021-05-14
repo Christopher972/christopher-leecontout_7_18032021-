@@ -52,11 +52,11 @@ export default {
             const userInfo = {"id": user.userId, "firstName": user.firstName, "email": user.email, "isAdmin": user.isAdmin, "token": user.token}
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
             this.$router.push({ name: 'posts' });
-            // alert('connexion réussi');
           }) 
         }
         else {
-           alert('Erreur' +  res.status  + '. Veuillez réessayer');
+          this.success=false;
+          this.message = "Veuillez réessayer";
         }
       })
       .catch (() => {
