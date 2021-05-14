@@ -124,7 +124,8 @@ export default {
                         }) 
 
                     } else {
-                         alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                        this.success=false;
+                        this.message = "Veuillez réessayer";
                     }
                 })
                 .catch (() => {
@@ -149,7 +150,8 @@ export default {
                              this.$router.push({ name: 'posts' });     
                         })
                     } else {
-                         alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                        this.success=false;
+                        this.message = "Veuillez réessayer";
                     } 
                 })
                 .catch (() => {
@@ -163,7 +165,7 @@ export default {
             localStorage.clear();
             this.$router.push({ name: 'login' });
         } 
-    },
+    }
 } 
 </script>
 

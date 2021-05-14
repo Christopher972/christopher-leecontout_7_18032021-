@@ -33,24 +33,27 @@ body
   justify-content: center;
 }
 
-#logo
-{
-  padding: 20px;
-}
-
 h1
 {
   color:white;   
 }
 
-.footer
+#app, h2 
 {
-  padding-bottom: 50px;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #e3e7eb;
+  background: #091F43 ;
+  padding-top: 5px;
+  
 }
 
-.copyright
+#form
 {
-  padding-top: 50px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 10px;
 }
 
 label
@@ -67,16 +70,34 @@ input
   height:24px;
 }
 
-textarea
+#userSignup 
 {
-    width: 50%;
-    height: 150px;
-    border-radius: 5px;
+  margin:20px auto 0;
+  height:auto;
+  border:none;
+  padding:10px;
+  border-radius:8px;
+  background:#e6dbd9;
+  font-weight:bold;
+  font-size:20px;
+  cursor:pointer;
+  color:#0c0b50;
 }
 
-.fileUpload, .buttonPost
+.invalid-feedback, #erreur
 {
-    padding:15px;
+  color:red;
+
+}
+
+.footer
+{
+  padding-bottom: 50px;
+}
+
+.copyright
+{
+  padding-top: 50px;
 }
 
 a, .delete, .modify {
@@ -95,13 +116,13 @@ a, .delete, .modify {
 
 #postsSection a
 {
-   border: 2px solid #0c0b50 ;
-    background-color: #091F43;   
+  border: 2px solid #0c0b50 ;
+  background-color: #091F43;   
 }
 
 #create, .profile, .disconnexion {
   font-weight: bold;
-  /* transform: scale(1); */
+  transform: scale(1);
   transition: all 400ms;
     &:hover {
       transform: scale(1.1);
@@ -109,12 +130,7 @@ a, .delete, .modify {
       cursor:pointer;
     }
 }
-.buttonPost a 
-{
-  border: none;
-  background: none;
-   text-decoration: underline;
-}
+
 li
 {
     color: white;
@@ -124,40 +140,13 @@ li
     }
     list-style:none;
 }
-#app, h2 
-{
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #e3e7eb;
-  background: #091F43 ;
-  padding-top: 5px;
-  
-}
-#form
-{
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    padding: 10px;
-}
 
-.figurePost{
+.figurePost
+{
     background-color: white;
     border-radius: 10px;
     padding: 6px 12px;  
     transform: translate(0px, -20px);
-}
-
-
-
-#postArticle, #picture, #notComment
-{
-    color: black;
-} 
-
-.invalid-feedback, #erreur
-{
-  color:red;
 }
 
 img
@@ -165,7 +154,31 @@ img
     width: 75%;
   }
 
-  #formCreatePost, #formModifyPost, #formCreateCom
+.buttonPost a 
+{
+  border: none;
+  background: none;
+  text-decoration: underline;
+}
+
+textarea
+{
+    width: 50%;
+    height: 150px;
+    border-radius: 5px;
+}
+
+.fileUpload, .buttonPost
+{
+    padding:15px;
+}
+
+#postArticle, #picture, #notComment
+{
+    color: black;
+} 
+
+#formCreatePost, #formModifyPost, #formCreateCom
 {
     border: 2px solid #0c0b50 ;
     background-color: #D1515A;
@@ -188,11 +201,15 @@ i
   {
     margin: 2px;
   }
-
+ 
 @media screen and (max-width:800px){
   #app
   {
     width: 100%;
+  }
+
+  li{
+    margin: 5px;
   }
   
   h1 
@@ -208,8 +225,12 @@ i
   .figurePost, #formCreatePost, #formModifyPost, #formCreateCom
   {
     margin: 2px;
-    transform: none;
+    transform: translate(0px, -15px);
+  }  
+
+  .imageProfil
+  {
+    margin-right: 50px;
   }
-  
 }
 </style>

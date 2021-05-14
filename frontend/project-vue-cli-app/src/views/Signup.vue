@@ -17,13 +17,13 @@
       <input  type="text" name="firstName" v-model="firstName" id="firstName">
       <p v-show="submitted && ! firstName" class="invalid-feedback">Un prénom d'utilisateur est requis !</p>
       <label for="e-mail">Adresse E-mail</label>
-      <input type="email" name="e-mail" v-model="email" id="e-mail" required>
+      <input type="email" name="e-mail" v-model="email" id="e-mail">
       <label for="password">Mot de Passe </label>
       <input  type="password" name="password" v-model="password" id="password">  
       <p v-show="submitted && ! password" class="invalid-feedback">Votre mot de passe doit contenir 8 caractères, au moins une Majuscule, une minuscule et un nombre !</p>
       <input type="submit" id="userSignup" value="Enregistrer">
     </form>
-    <p id="erreur" v-show="success===false"> Echec de l'inscription : {{message}} </p>
+    <p id="erreur" v-show="success===false"> Echec de l'inscription : {{ message }} </p>
     <div id="account">
       <p> Déjà un compte ? <router-link to="/login">Se connecter</router-link> </p>
     </div>
@@ -41,7 +41,7 @@ export default {
       firstName:"",
       email:"",
       password:"",
-      submitted: false
+      submitted: false  
     }
   },
   methods: {
@@ -62,9 +62,9 @@ export default {
         if (res.status == 201) {
           this.success=true;
           this.$router.push({ name: 'login' });
-          // alert('Inscription réussi');
         } else {
-          alert('Erreur' +  res.status  + '. Veuillez vous réinscricre');
+          this.success=false;
+          this.message = "Veuillez vous réinscrire";
         }
       })
       .catch (() => {
@@ -76,24 +76,4 @@ export default {
 }
 </script>
 
-<style lang = "scss">
-#userSignup 
-{
-  margin:20px auto 0;
-  height:auto;
-  border:none;
-  padding:10px;
-  border-radius:8px;
-  background:#e6dbd9;
-  font-weight:bold;
-  font-size:20px;
-  cursor:pointer;
-  color:#0c0b50;
-}
 
-.invalid-feedback
-{
-  color:red;
-}
-
-</style>

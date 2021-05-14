@@ -127,10 +127,10 @@ export default {
                         this.user = user;
                         this.success = true;
                         this.$router.push({ name: 'posts' })
-                    })
-                    // alert('profile modifié');   
+                    })  
                 } else {
-                    alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                   this.success=false;
+                   this.message = "Veuillez réessayer";
                 }
             })
             .catch (() => {
@@ -150,10 +150,12 @@ export default {
                     if (res.status == 200) {
                         res.json()
                         .then( user => {
-                            this.user = user; 
+                            this.user = user;
+                            this.$router.push({ name: 'login' })
                         })        
                     } else { 
-                        alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                        this.success=false;
+                        this.message = "Veuillez réessayer";
                     } 
                 })
                 .catch (() => {

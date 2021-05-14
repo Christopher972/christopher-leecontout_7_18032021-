@@ -110,7 +110,8 @@ methods: {
                             this.$router.push({ name: 'posts' });
                         })
                 } else {
-                    alert('Erreur' +  res.status  + '. Veuillez réessayer');
+                    this.success=false;
+                    this.message = "Veuillez réessayer";
                     }
                 })
                 .catch (() => {
