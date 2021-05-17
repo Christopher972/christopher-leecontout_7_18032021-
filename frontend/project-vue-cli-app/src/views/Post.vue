@@ -77,6 +77,7 @@ export default {
             firstName:"",
             token:"",
             comArticle:"",
+            isAdmin: "",
             post: {},
             comments:[],
             imageLoaded: false
@@ -88,7 +89,6 @@ export default {
             this.isAdmin = userInfo.isAdmin;
             this.id = userInfo.id;
             this.firstName = userInfo.firstName;
-            this.email = userInfo.email
             this.token = userInfo.token;
             this.postDetails();
             
