@@ -29,7 +29,7 @@
          <div class="buttonPost">
             <router-link to="/posts" class = "profile"> <i class="fas fa-undo"></i> Retourner aux publications</router-link>
             <button class="delete" @click= "deleteUser()">Suprrimer Utlisateur</button>     
-            <h3 id="erreur" v-show="success===false"> Echec de la requête : {{message}} </h3>
+            <h3 id="erreur" v-show="success===false"> Echec de la requête : {{ message }} </h3>
         </div>  
     </div>
 </template>
@@ -56,7 +56,6 @@ export default {
             this.picture = userInfo.picture;
             this.id = userInfo.id;
             this.firstName = userInfo.firstName;
-            this.email =userInfo.email
             this.token = userInfo.token;
             this.getOneUser();
             

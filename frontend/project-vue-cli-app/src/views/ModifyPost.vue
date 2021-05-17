@@ -40,9 +40,8 @@ export default {
         success: true, //affichage d'un message d'erreur si passe à false
         message :"", //message d'erreur
         id:"",
-        firstName:"",
         token:"",
-        postArticle:"" ,
+        postArticle:"",
         post: {},
         imageLoaded: false
       }
@@ -51,8 +50,6 @@ export default {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         if (userInfo) {
           this.id = userInfo.id;
-          this.firstName = userInfo.firstName;
-          this.email =userInfo.email
           this.token = userInfo.token;
           this.onePost();
             
