@@ -1,8 +1,8 @@
 TOKEN_SECRET_KEY=" la clef secrète"
 
-Veuillez créer un fichier de variables d'environnement 
+Créer un fichier de variables d'environnement pour se connecter à la BD
 
-Connexion à la BD
+Connexion à la BD :
 
 BD_NAME= "le nom de la base de donnée my SQL "
 
